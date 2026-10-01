@@ -91,6 +91,45 @@ content:
         type: boolean
         default: true
 
+  - name: alerts
+    label: التنبيهات
+    type: file
+    path: data/alerts.json
+    format: json
+    list: true
+    operations:
+      delete: false
+    fields:
+      - name: type
+        label: نوع التنبيه
+        type: select
+        required: true
+        options:
+          values: [عام, حضور وانضباط, اختبار, فعالية, طارئ]
+      - name: title
+        label: عنوان التنبيه
+        type: string
+        required: true
+      - name: message
+        label: نص التنبيه
+        type: text
+        required: true
+      - name: priority
+        label: الأولوية
+        type: select
+        options:
+          values: [عادي, مهم, عاجل]
+      - name: start
+        label: يبدأ من
+        type: date
+      - name: end
+        label: ينتهي في
+        type: date
+      - name: published
+        label: منشور
+        type: boolean
+        default: true
+
   - name: events
     label: المواعيد المهمة
     type: file
