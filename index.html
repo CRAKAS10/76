@@ -22,6 +22,7 @@
       <a href="#parents">ولي الأمر</a>
       <a href="#resources">الموارد والتطوير</a>
       <a href="#guidance">الشؤون الطلابية</a>
+      <a href="#contact">تواصل معنا</a>
     </nav>
   </div>
 </header>
@@ -130,9 +131,95 @@
 </section>
 
 <section class="section contact" id="contact">
-  <div class="container contact-box">
-    <div><span>تواصل معنا</span><h3>الثانوية السابعة والستون</h3><p>يمكنك هنا إضافة البريد الرسمي، رقم الهاتف، موقع المدرسة، أو رابط نموذج التواصل.</p></div>
-    <div class="contact-actions"><a class="btn primary" href="mailto:school@example.com">البريد الإلكتروني</a><a class="btn secondary" href="#">نموذج التواصل</a></div>
+  <div class="container">
+    <div class="section-head">
+      <span>تواصل معنا</span>
+      <h3>نموذج التواصل مع الثانوية السابعة والستون</h3>
+      <p>أرسل استفسارك أو ملاحظتك، وسيتم تجهيز الرسالة لإرسالها عبر تطبيق البريد في جهازك.</p>
+    </div>
+
+    <div class="contact-layout">
+      <div class="contact-info-card">
+        <span class="mini">قنوات التواصل</span>
+        <h4>يسعدنا تواصلكم</h4>
+        <p>استخدم النموذج لإرسال استفسار عام أو ملاحظة أو طلب تواصل مع المدرسة.</p>
+
+        <div class="contact-points">
+          <div><b>✉️ البريد الإلكتروني</b><span id="schoolEmailLabel">school@example.com</span></div>
+          <div><b>🕘 أوقات المتابعة</b><span>خلال الدوام الرسمي</span></div>
+          <div><b>🔒 الخصوصية</b><span>لا تكتب بيانات حساسة أو كلمات مرور داخل الرسالة.</span></div>
+        </div>
+
+        <div class="contact-tip">
+          يمكن لاحقًا ربط النموذج مباشرة بـ Google Forms أو بريد المدرسة الرسمي لاستقبال الطلبات دون فتح تطبيق البريد.
+        </div>
+      </div>
+
+      <form class="contact-form" id="contactForm" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="contactName">الاسم <em>*</em></label>
+            <input id="contactName" name="name" type="text" placeholder="الاسم الكامل" required>
+          </div>
+
+          <div class="form-group">
+            <label for="contactRole">صفة المرسل <em>*</em></label>
+            <select id="contactRole" name="role" required>
+              <option value="">اختر الصفة</option>
+              <option>طالبة</option>
+              <option>ولي أمر</option>
+              <option>معلمة</option>
+              <option>إدارية</option>
+              <option>زائرة</option>
+              <option>أخرى</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="contactPhone">رقم الجوال</label>
+            <input id="contactPhone" name="phone" type="tel" inputmode="tel" placeholder="05xxxxxxxx">
+          </div>
+
+          <div class="form-group">
+            <label for="contactEmail">البريد الإلكتروني</label>
+            <input id="contactEmail" name="email" type="email" placeholder="name@example.com">
+          </div>
+
+          <div class="form-group full">
+            <label for="contactSubject">موضوع الرسالة <em>*</em></label>
+            <select id="contactSubject" name="subject" required>
+              <option value="">اختر الموضوع</option>
+              <option>استفسار عام</option>
+              <option>شؤون الطالبات</option>
+              <option>التوجيه الطلابي</option>
+              <option>الحضور والانضباط</option>
+              <option>مقترح أو ملاحظة</option>
+              <option>طلب موعد</option>
+              <option>أخرى</option>
+            </select>
+          </div>
+
+          <div class="form-group full">
+            <label for="contactMessage">نص الرسالة <em>*</em></label>
+            <textarea id="contactMessage" name="message" rows="6" maxlength="1500" placeholder="اكتب رسالتك بوضوح..." required></textarea>
+            <div class="field-meta"><span id="messageCount">0</span> / 1500</div>
+          </div>
+
+          <label class="privacy-check full">
+            <input id="contactConsent" type="checkbox" required>
+            <span>أقر بأن الرسالة لا تحتوي بيانات حساسة، وأوافق على استخدامها لغرض التواصل فقط.</span>
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn primary" type="submit">إرسال عبر البريد</button>
+          <button class="btn secondary" type="button" id="copyMessageBtn">نسخ الرسالة</button>
+          <button class="btn linkbtn" type="reset">مسح الحقول</button>
+        </div>
+
+        <div class="form-status" id="contactStatus" role="status" aria-live="polite"></div>
+      </form>
+    </div>
   </div>
 </section>
 </main>
