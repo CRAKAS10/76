@@ -43,3 +43,10 @@
 .form-status.show{display:block}.form-status.success{background:#eaf6ef;color:#286846}.form-status.error{background:#fff0f0;color:#9c3f43}.form-status.info{background:#eef4f8;color:#285f7f}
 @media(max-width:900px){.contact-layout{grid-template-columns:1fr}.contact-info-card{position:static}}
 @media(max-width:600px){.contact-form,.contact-info-card{padding:20px}.form-grid{grid-template-columns:1fr}.form-group.full,.privacy-check.full{grid-column:auto}.form-actions .btn{width:100%}}
+
+/* المحتوى الديناميكي */
+.news-image{width:100%;height:180px;object-fit:cover;border-radius:15px;margin-bottom:14px;border:1px solid var(--line)}
+.card-link{display:inline-block;margin-top:12px;color:var(--teal);font-weight:800;font-size:13px}
+.quick-grid a{display:flex;align-items:center;gap:8px}
+.quick-icon{font-size:18px}
+.empty-state{grid-column:1/-1;padding:24px;border:1px dashed #cbd5dc;border-radius:16px;text-align:center;color:var(--muted);background:#fff}
