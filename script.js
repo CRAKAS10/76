@@ -81,6 +81,33 @@ async function renderNews(){
   }).join('');
 }
 
+async function renderAlerts(){
+  const grid=document.getElementById('alertsGrid');
+  if(!grid)return;
+  const today=new Date();
+  today.setHours(0,0,0,0);
+  const items=(await loadJSON('data/alerts.json',[])).filter(item=>{
+    if(item.published===false)return false;
+    const start=item.start?new Date(item.start+'T00:00:00'):null;
+    const end=item.end?new Date(item.end+'T23:59:59'):null;
+    if(start && today<start)return false;
+    if(end && today>end)return false;
+    return true;
+  }).sort((a,b)=>{
+    const weight={عاجل:3,مهم:2,عادي:1};
+    return (weight[b.priority]||1)-(weight[a.priority]||1);
+  });
+  if(!items.length){
+    grid.innerHTML='<div class="alert-card priority-normal"><div class="alert-icon">🔔</div><div><b>لا توجد تنبيهات عاجلة حاليًا</b><p>ستظهر هنا التنبيهات التي تضيفها الإدارة.</p></div></div>';
+    return;
+  }
+  grid.innerHTML=items.map(item=>{
+    const cls=item.priority==='عاجل'?'priority-urgent':item.priority==='مهم'?'priority-important':'priority-normal';
+    const icon=item.priority==='عاجل'?'🚨':item.priority==='مهم'?'⚠️':'🔔';
+    return '<div class="alert-card '+cls+'"><div class="alert-icon">'+icon+'</div><div><span class="alert-type">'+escapeHTML(item.type||'تنبيه')+'</span><b>'+escapeHTML(item.title)+'</b><p>'+escapeHTML(item.message||'')+'</p></div></div>';
+  }).join('');
+}
+
 async function renderEvents(){
   const grid=document.getElementById('calendarGrid');
   if(!grid)return;
@@ -202,6 +229,7 @@ document.querySelectorAll('.contact-jump').forEach(link=>{
 Promise.all([
   loadSiteSettings(),
   renderNews(),
+  renderAlerts(),
   renderEvents(),
   renderLinks(),
   renderResources()
