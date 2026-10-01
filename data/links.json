@@ -1,0 +1,26 @@
+[
+  {
+    "title": "منصة مدرستي",
+    "url": "https://schools.madrasati.sa/",
+    "icon": "🎓",
+    "published": true
+  },
+  {
+    "title": "نظام نور",
+    "url": "https://noor.moe.gov.sa/",
+    "icon": "🖥️",
+    "published": true
+  },
+  {
+    "title": "الاختبارات",
+    "url": "#",
+    "icon": "📝",
+    "published": true
+  },
+  {
+    "title": "النماذج",
+    "url": "#",
+    "icon": "📋",
+    "published": true
+  }
+]
