@@ -13,3 +13,33 @@
 .contact{padding-top:20px}.contact-box{background:linear-gradient(135deg,#eef6f6,#f8fafb);border:1px solid var(--line);border-radius:28px;padding:34px;display:flex;justify-content:space-between;align-items:center;gap:22px}.contact-box h3{font-size:28px;margin:5px 0}.contact-box p{margin:0;color:var(--muted)}footer{background:#102536;color:#fff;padding:28px 0}.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px}.footer-inner span{display:block;font-size:12px;color:#b9c5ce}.footer-inner p{font-size:12px;color:#aab7c1}
 @media(max-width:900px){nav{display:none;position:absolute;top:80px;right:16px;left:16px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:var(--shadow);flex-direction:column}nav.open{display:flex}.menu-btn{display:block}.hero-grid,.split{grid-template-columns:1fr}.hero h2{font-size:40px}.service-grid{grid-template-columns:1fr 1fr}.news-grid{grid-template-columns:1fr}.resource-grid,.calendar-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.container{width:min(100% - 22px,1180px)}.topbar-inner{min-height:70px}.brand h1{font-size:15px}.logo-mark{width:44px;height:44px}.hero{padding:44px 0}.hero h2{font-size:32px}.hero p{font-size:15px}.hero-visual{height:230px}.section{padding:58px 0}.section-head h3{font-size:28px}.service-grid,.resource-grid,.calendar-grid{grid-template-columns:1fr}.section-head.inline,.contact-box,.footer-inner{display:block}.text-link{display:inline-block;margin-top:12px}.contact-actions{margin-top:20px}.quick-grid{grid-template-columns:1fr 1fr}}
+
+/* نموذج التواصل */
+.contact-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:22px;align-items:start}
+.contact-info-card,.contact-form{background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}
+.contact-info-card{padding:28px;position:sticky;top:110px}
+.contact-info-card h4{font-size:26px;margin:7px 0 10px;color:var(--navy)}
+.contact-info-card>p{color:var(--muted);margin:0 0 22px}
+.contact-points{display:grid;gap:12px}
+.contact-points>div{padding:14px;border:1px solid var(--line);border-radius:14px;background:#fafcfd}
+.contact-points b{display:block;color:var(--navy);margin-bottom:3px}
+.contact-points span{font-size:13px;color:var(--muted)}
+.contact-tip{margin-top:18px;padding:14px;border-radius:14px;background:#eef6f6;color:#46676a;font-size:12px;line-height:1.8}
+.contact-form{padding:28px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{display:grid;gap:7px}.form-group.full,.privacy-check.full{grid-column:1/-1}
+.form-group label{font-size:13px;font-weight:800;color:var(--navy)}
+.form-group label em{color:#b94c50;font-style:normal}
+.form-group input,.form-group select,.form-group textarea{width:100%;border:1px solid var(--line);border-radius:13px;background:#fff;padding:13px 14px;font:inherit;color:var(--text);outline:none;transition:.2s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:#8eb1b3;box-shadow:0 0 0 4px rgba(94,142,145,.10)}
+.form-group textarea{resize:vertical;min-height:150px}
+.field-meta{text-align:left;color:var(--muted);font-size:11px}
+.privacy-check{display:flex;align-items:flex-start;gap:9px;padding:12px 14px;border-radius:13px;background:#fafbfd;color:#52606e;font-size:12px}
+.privacy-check input{margin-top:4px;accent-color:var(--navy)}
+.form-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.form-actions button{border:0;cursor:pointer;font-family:inherit}
+.linkbtn{background:transparent;color:var(--muted)}
+.form-status{display:none;margin-top:16px;padding:13px 14px;border-radius:13px;font-size:13px;font-weight:700}
+.form-status.show{display:block}.form-status.success{background:#eaf6ef;color:#286846}.form-status.error{background:#fff0f0;color:#9c3f43}.form-status.info{background:#eef4f8;color:#285f7f}
+@media(max-width:900px){.contact-layout{grid-template-columns:1fr}.contact-info-card{position:static}}
+@media(max-width:600px){.contact-form,.contact-info-card{padding:20px}.form-grid{grid-template-columns:1fr}.form-group.full,.privacy-check.full{grid-column:auto}.form-actions .btn{width:100%}}
