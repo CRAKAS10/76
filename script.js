@@ -3,12 +3,129 @@ const mainNav=document.getElementById('mainNav');
 menuBtn?.addEventListener('click',()=>mainNav.classList.toggle('open'));
 mainNav?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mainNav.classList.remove('open')));
 
-const SCHOOL_EMAIL='school@example.com';
+let SCHOOL_EMAIL='school@example.com';
+
 const contactForm=document.getElementById('contactForm');
 const contactStatus=document.getElementById('contactStatus');
 const messageField=document.getElementById('contactMessage');
 const messageCount=document.getElementById('messageCount');
 const copyMessageBtn=document.getElementById('copyMessageBtn');
+
+const escapeHTML=value=>String(value??'').replace(/[&<>"']/g,ch=>({
+  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+}[ch]));
+
+async function loadJSON(path,fallback){
+  try{
+    const res=await fetch(path+'?v='+Date.now(),{cache:'no-store'});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    return await res.json();
+  }catch(err){
+    console.warn('تعذر تحميل',path,err);
+    return fallback;
+  }
+}
+
+function formatArabicDate(value){
+  if(!value)return '';
+  const d=new Date(value+'T12:00:00');
+  if(Number.isNaN(d.getTime()))return value;
+  return new Intl.DateTimeFormat('ar-SA',{day:'numeric',month:'long',year:'numeric'}).format(d);
+}
+
+async function loadSiteSettings(){
+  const data=await loadJSON('data/site.json',{});
+  const pairs=[
+    ['schoolName',data.schoolName],
+    ['portalTitle',data.portalTitle],
+    ['heroTitle',data.heroTitle],
+    ['heroSubtitle',data.heroSubtitle],
+    ['heroText',data.heroText],
+    ['contactSchoolName',data.schoolName],
+    ['footerSchoolName',data.schoolName],
+    ['footerText',data.footerText||data.portalTitle],
+    ['schoolEmailLabel',data.contactEmail]
+  ];
+  pairs.forEach(([id,value])=>{
+    const el=document.getElementById(id);
+    if(el && value)el.textContent=value;
+  });
+  if(data.schoolName && data.portalTitle){
+    document.title=data.schoolName+' | '+data.portalTitle;
+  }
+  if(data.contactEmail)SCHOOL_EMAIL=data.contactEmail;
+}
+
+async function renderNews(){
+  const grid=document.getElementById('newsGrid');
+  if(!grid)return;
+  const items=(await loadJSON('data/news.json',[]))
+    .filter(x=>x.published!==false)
+    .sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+  if(!items.length){
+    grid.innerHTML='<div class="empty-state">لا توجد أخبار منشورة حاليًا.</div>';
+    return;
+  }
+  grid.innerHTML=items.map((item,i)=>{
+    const content=`
+      ${item.image?'<img class="news-image" src="'+escapeHTML(item.image)+'" alt="">':''}
+      <div class="tag ${i?'muted':''}">${escapeHTML(item.type||'خبر')}</div>
+      <h4>${escapeHTML(item.title)}</h4>
+      <p>${escapeHTML(item.description)}</p>
+      <time>${escapeHTML(formatArabicDate(item.date))}</time>
+      ${item.url?'<a class="card-link" href="'+escapeHTML(item.url)+'" target="_blank" rel="noopener">التفاصيل ←</a>':''}
+    `;
+    return item.url
+      ? '<article class="news-card '+(i===0?'featured':'')+'">'+content+'</article>'
+      : '<article class="news-card '+(i===0?'featured':'')+'">'+content+'</article>';
+  }).join('');
+}
+
+async function renderEvents(){
+  const grid=document.getElementById('calendarGrid');
+  if(!grid)return;
+  const items=(await loadJSON('data/events.json',[]))
+    .filter(x=>x.published!==false)
+    .sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));
+  if(!items.length){
+    grid.innerHTML='<div class="empty-state">لا توجد مواعيد منشورة حاليًا.</div>';
+    return;
+  }
+  grid.innerHTML=items.map(item=>{
+    const d=new Date((item.date||'')+'T12:00:00');
+    const day=Number.isNaN(d.getTime())?'—':new Intl.DateTimeFormat('ar-SA',{day:'2-digit'}).format(d);
+    const month=Number.isNaN(d.getTime())?'':new Intl.DateTimeFormat('ar-SA',{month:'long'}).format(d);
+    return '<div class="date-card"><strong>'+escapeHTML(day)+'</strong><span>'+escapeHTML(month)+'</span><p>'+escapeHTML(item.title)+'</p></div>';
+  }).join('');
+}
+
+async function renderLinks(){
+  const grid=document.getElementById('quickLinksGrid');
+  if(!grid)return;
+  const items=(await loadJSON('data/links.json',[])).filter(x=>x.published!==false);
+  if(!items.length){
+    grid.innerHTML='<div class="empty-state">لا توجد روابط سريعة.</div>';
+    return;
+  }
+  grid.innerHTML=items.map(item=>{
+    const target=(item.url||'#');
+    return '<a href="'+escapeHTML(target)+'" '+(target.startsWith('http')?'target="_blank" rel="noopener"':'')+'><span class="quick-icon">'+escapeHTML(item.icon||'↗')+'</span>'+escapeHTML(item.title)+'</a>';
+  }).join('');
+}
+
+async function renderResources(){
+  const grid=document.getElementById('resourceGrid');
+  if(!grid)return;
+  const items=(await loadJSON('data/resources.json',[])).filter(x=>x.published!==false);
+  if(!items.length){
+    grid.innerHTML='<div class="empty-state">لا توجد ملفات أو نماذج منشورة حاليًا.</div>';
+    return;
+  }
+  grid.innerHTML=items.map(item=>{
+    const target=item.file||item.url||'';
+    return '<div class="resource-card"><b>'+escapeHTML(item.icon||'📄')+'</b><h4>'+escapeHTML(item.title)+'</h4><p>'+escapeHTML(item.description||'')+'</p>'+(target?'<a href="'+escapeHTML(target)+'" target="_blank" rel="noopener">فتح الملف أو الرابط</a>':'')+'</div>';
+  }).join('');
+}
 
 function setStatus(message,type='info'){
   if(!contactStatus)return;
@@ -28,21 +145,16 @@ function getContactPayload(){
 
 function buildMessage(data){
   return [
-    'رسالة عبر بوابة الثانوية السابعة والستون',
-    '',
+    'رسالة عبر بوابة الثانوية السابعة والستون','',
     'الاسم: '+data.name,
     'صفة المرسل: '+data.role,
     'رقم الجوال: '+(data.phone||'غير مدخل'),
     'البريد الإلكتروني: '+(data.email||'غير مدخل'),
-    'الموضوع: '+data.subject,
-    '',
-    'نص الرسالة:',
-    data.message
+    'الموضوع: '+data.subject,'','نص الرسالة:',data.message
   ].join('\n');
 }
 
 messageField?.addEventListener('input',()=>{if(messageCount)messageCount.textContent=String(messageField.value.length)});
-
 contactForm?.addEventListener('reset',()=>setTimeout(()=>{
   if(messageCount)messageCount.textContent='0';
   if(contactStatus)contactStatus.className='form-status';
@@ -76,15 +188,21 @@ copyMessageBtn?.addEventListener('click',async()=>{
     setStatus('تعذر النسخ تلقائيًا. حدّد نص الرسالة وانسخه يدويًا.','error');
   }
 });
+
 document.querySelectorAll('.contact-jump').forEach(link=>{
   link.addEventListener('click',e=>{
     e.preventDefault();
     const target=document.getElementById('contact');
     if(!target)return;
     target.scrollIntoView({behavior:'smooth',block:'start'});
-    setTimeout(()=>{
-      const first=target.querySelector('input,select,textarea,button');
-      first?.focus({preventScroll:true});
-    },550);
+    setTimeout(()=>target.querySelector('input,select,textarea,button')?.focus({preventScroll:true}),550);
   });
 });
+
+Promise.all([
+  loadSiteSettings(),
+  renderNews(),
+  renderEvents(),
+  renderLinks(),
+  renderResources()
+]);
