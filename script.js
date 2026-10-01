@@ -76,3 +76,15 @@ copyMessageBtn?.addEventListener('click',async()=>{
     setStatus('تعذر النسخ تلقائيًا. حدّد نص الرسالة وانسخه يدويًا.','error');
   }
 });
+document.querySelectorAll('.contact-jump').forEach(link=>{
+  link.addEventListener('click',e=>{
+    e.preventDefault();
+    const target=document.getElementById('contact');
+    if(!target)return;
+    target.scrollIntoView({behavior:'smooth',block:'start'});
+    setTimeout(()=>{
+      const first=target.querySelector('input,select,textarea,button');
+      first?.focus({preventScroll:true});
+    },550);
+  });
+});
