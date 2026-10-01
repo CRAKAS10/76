@@ -1,424 +1,143 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>منظومة الانضباط المدرسي | الثانوية السابعة والستون</title>
-<style>
-  :root{
-    --bg:#f4f7fb; --card:#ffffff; --text:#172235; --muted:#6f7b8f;
-    --brand:#173f5f; --brand2:#2f6b8a; --accent:#d7a84b;
-    --success:#2d8a60; --danger:#b94c50; --warning:#c78a26;
-    --line:#e5eaf0; --shadow:0 12px 30px rgba(26,51,79,.08);
-    --radius:20px;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:"Tajawal","Arial",sans-serif;background:linear-gradient(180deg,#eef4f9 0,#f8fafc 300px);color:var(--text)}
-  button,input,select,textarea{font:inherit}
-  .app{min-height:100vh}
-  .topbar{
-    background:linear-gradient(135deg,var(--brand),#245d7a);
-    color:#fff;padding:18px 24px;position:sticky;top:0;z-index:20;
-    box-shadow:0 6px 20px rgba(23,63,95,.22)
-  }
-  .topbar-inner{max-width:1300px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
-  .brand{display:flex;align-items:center;gap:13px}
-  .crest{width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.14);display:grid;place-items:center;border:1px solid rgba(255,255,255,.26);font-size:26px}
-  .brand h1{font-size:20px;margin:0 0 3px;font-weight:800}
-  .brand p{margin:0;font-size:13px;opacity:.84}
-  .top-actions{display:flex;gap:8px;align-items:center}
-  .btn{border:0;border-radius:12px;padding:10px 14px;cursor:pointer;transition:.2s;font-weight:700}
-  .btn:hover{transform:translateY(-1px)}
-  .btn-light{background:#fff;color:var(--brand)}
-  .btn-ghost{background:rgba(255,255,255,.10);color:#fff;border:1px solid rgba(255,255,255,.18)}
-  .layout{max-width:1300px;margin:24px auto;padding:0 18px;display:grid;grid-template-columns:250px 1fr;gap:20px}
-  .sidebar{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);height:max-content;position:sticky;top:105px}
-  .nav-title{font-size:12px;color:var(--muted);font-weight:800;padding:8px 10px}
-  .nav button{width:100%;border:0;background:transparent;text-align:right;padding:12px 12px;border-radius:12px;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:10px;font-weight:700;margin:2px 0}
-  .nav button:hover,.nav button.active{background:#edf4f8;color:var(--brand)}
-  .nav .ico{width:28px;height:28px;border-radius:9px;background:#f2f5f8;display:grid;place-items:center}
-  .side-note{margin-top:16px;padding:14px;border-radius:15px;background:#fbf6e8;border:1px solid #efdfb8;color:#725719;font-size:12px;line-height:1.7}
-  main{min-width:0}
-  .hero{background:linear-gradient(135deg,#fff,#f4f8fb);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:24px;padding:24px;display:flex;justify-content:space-between;gap:18px;align-items:center}
-  .hero h2{margin:0 0 6px;font-size:25px;color:var(--brand)}
-  .hero p{margin:0;color:var(--muted);line-height:1.8}
-  .date-card{min-width:160px;background:var(--brand);color:#fff;border-radius:18px;padding:16px;text-align:center}
-  .date-card b{display:block;font-size:20px;margin-top:4px}
-  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
-  .stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow)}
-  .stat .label{color:var(--muted);font-size:13px;font-weight:700}
-  .stat .value{font-size:29px;font-weight:900;margin:8px 0 2px}
-  .stat .hint{font-size:12px;color:var(--muted)}
-  .grid2{display:grid;grid-template-columns:1.3fr .7fr;gap:16px;margin-top:16px}
-  .panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow)}
-  .panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
-  .panel-head h3{margin:0;font-size:17px}
-  .panel-head span{color:var(--muted);font-size:12px}
-  .bars{display:grid;gap:12px}
-  .bar-row{display:grid;grid-template-columns:120px 1fr 52px;gap:10px;align-items:center;font-size:13px}
-  .track{height:10px;background:#eef1f4;border-radius:99px;overflow:hidden}
-  .fill{height:100%;background:linear-gradient(90deg,var(--brand2),var(--brand));border-radius:99px}
-  .feed{display:grid;gap:10px}
-  .feed-item{padding:12px;border:1px solid var(--line);border-radius:14px;display:flex;gap:10px;align-items:flex-start}
-  .dot{width:10px;height:10px;border-radius:50%;margin-top:5px;background:var(--brand2);flex:none}
-  .feed-item b{font-size:13px}
-  .feed-item p{font-size:12px;color:var(--muted);margin:3px 0 0;line-height:1.5}
-  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-  .field{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;min-width:180px;outline:none}
-  .field:focus{border-color:#9eb9ca;box-shadow:0 0 0 3px rgba(47,107,138,.08)}
-  .primary{background:var(--brand);color:#fff}
-  .secondary{background:#edf4f8;color:var(--brand)}
-  .danger{background:#fff0f0;color:var(--danger)}
-  .success{background:#eaf6ef;color:var(--success)}
-  table{width:100%;border-collapse:collapse;font-size:13px}
-  th,td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
-  th{color:var(--muted);font-size:12px;background:#fafbfd}
-  .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:15px}
-  .badge{display:inline-block;padding:5px 9px;border-radius:99px;font-size:11px;font-weight:800}
-  .badge.green{background:#eaf6ef;color:#24704d}
-  .badge.red{background:#fff0f0;color:#a33e44}
-  .badge.amber{background:#fff7e8;color:#96691e}
-  .badge.blue{background:#edf4f8;color:#285f7f}
-  .section{display:none}
-  .section.active{display:block}
-  .empty{padding:28px;text-align:center;color:var(--muted)}
-  .quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  .quick{padding:16px;border:1px solid var(--line);border-radius:16px;background:#fff;cursor:pointer;text-align:right}
-  .quick:hover{border-color:#b9cbd7;box-shadow:0 8px 20px rgba(23,63,95,.07)}
-  .quick b{display:block;margin-bottom:5px}
-  .quick span{color:var(--muted);font-size:12px}
-  .modal{position:fixed;inset:0;background:rgba(15,29,43,.46);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}
-  .modal.show{display:flex}
-  .modal-card{width:min(560px,100%);background:#fff;border-radius:22px;padding:20px;box-shadow:0 25px 80px rgba(0,0,0,.25)}
-  .modal-card h3{margin:0 0 14px}
-  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .form-group{display:grid;gap:6px}
-  .form-group.full{grid-column:1/-1}
-  label{font-size:12px;font-weight:800;color:#526074}
-  textarea.field{min-height:90px;resize:vertical}
-  .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
-  .print-only{display:none}
-  @media (max-width:1000px){
-    .layout{grid-template-columns:1fr}
-    .sidebar{position:static;display:flex;overflow:auto;padding:8px}
-    .nav-title,.side-note{display:none}
-    .nav{display:flex;gap:4px}
-    .nav button{min-width:max-content}
-    .cards{grid-template-columns:repeat(2,1fr)}
-    .grid2{grid-template-columns:1fr}
-  }
-  @media (max-width:650px){
-    .topbar-inner{align-items:flex-start}
-    .top-actions{display:none}
-    .layout{margin-top:14px;padding:0 10px}
-    .hero{align-items:flex-start;flex-direction:column}
-    .date-card{width:100%}
-    .cards{grid-template-columns:1fr 1fr;gap:8px}
-    .stat{padding:14px}
-    .stat .value{font-size:24px}
-    .quick-grid{grid-template-columns:1fr}
-    .form-grid{grid-template-columns:1fr}
-    .form-group.full{grid-column:auto}
-  }
-  @media print{
-    .topbar,.sidebar,.toolbar,.quick-grid,.btn,.side-note{display:none!important}
-    .layout{display:block;max-width:none;margin:0;padding:0}
-    body{background:#fff}
-    .section{display:none!important}
-    .section.active{display:block!important}
-    .panel,.hero,.stat{box-shadow:none}
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="بوابة التواصل المدرسي - الثانوية السابعة والستون">
+  <title>الثانوية السابعة والستون | بوابة التواصل المدرسي</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="app">
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <div class="crest">🏫</div>
-        <div>
-          <h1>الثانوية السابعة والستون</h1>
-          <p>منظومة الانضباط والسلوك المدرسي</p>
-        </div>
-      </div>
-      <div class="top-actions">
-        <button class="btn btn-ghost" onclick="window.print()">طباعة التقرير</button>
-        <button class="btn btn-light" onclick="openModal('incidentModal')">+ تسجيل حالة</button>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <div class="logo-mark">67</div>
+      <div><h1>الثانوية السابعة والستون</h1><p>بوابة التواصل المدرسي</p></div>
+    </div>
+    <button class="menu-btn" id="menuBtn">☰</button>
+    <nav id="mainNav">
+      <a href="#home">الرئيسية</a>
+      <a href="#news">الأخبار والفعاليات</a>
+      <a href="#students">الطالبات والتعلم</a>
+      <a href="#parents">ولي الأمر</a>
+      <a href="#resources">الموارد والتطوير</a>
+      <a href="#guidance">الشؤون الطلابية</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">مرحبًا بكم في</span>
+      <h2>بوابة التواصل المدرسي<br><strong>للثانوية السابعة والستون</strong></h2>
+      <p>منصة موحّدة للوصول إلى أخبار المدرسة، خدمات الطالبات، التواصل مع أولياء الأمور، الموارد التعليمية، والشؤون الطلابية.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#services">الدخول للخدمات</a>
+        <a class="btn secondary" href="#news">آخر الأخبار</a>
       </div>
     </div>
-  </header>
-
-  <div class="layout">
-    <aside class="sidebar">
-      <div class="nav-title">القائمة الرئيسية</div>
-      <div class="nav" id="nav">
-        <button class="active" data-section="dashboard"><span class="ico">⌂</span>لوحة المتابعة</button>
-        <button data-section="students"><span class="ico">👩‍🎓</span>الطالبات</button>
-        <button data-section="attendance"><span class="ico">✓</span>الحضور والتأخر</button>
-        <button data-section="incidents"><span class="ico">!</span>المخالفات السلوكية</button>
-        <button data-section="positive"><span class="ico">★</span>السلوك الإيجابي</button>
-        <button data-section="reports"><span class="ico">▤</span>التقارير</button>
-      </div>
-      <div class="side-note">
-        <b>تنبيه خصوصية</b><br>
-        هذه نسخة تجريبية. عند التشغيل الفعلي، احفظ بيانات الطالبات في نظام معتمد ومقيد الصلاحيات، ولا تضع بيانات حساسة في صفحة عامة.
-      </div>
-    </aside>
-
-    <main>
-      <section id="dashboard" class="section active">
-        <div class="hero">
-          <div>
-            <h2>لوحة الانضباط المدرسي</h2>
-            <p>متابعة يومية للحضور والتأخر، المخالفات السلوكية، وبرامج تعزيز السلوك الإيجابي في الثانوية السابعة والستون.</p>
-          </div>
-          <div class="date-card">
-            <span>اليوم</span>
-            <b id="todayDate">—</b>
-          </div>
-        </div>
-
-        <div class="cards">
-          <div class="stat"><div class="label">إجمالي الطالبات</div><div class="value" id="kpiStudents">420</div><div class="hint">بيانات تجريبية قابلة للتعديل</div></div>
-          <div class="stat"><div class="label">نسبة الحضور</div><div class="value">96.4%</div><div class="hint">اليوم الدراسي الحالي</div></div>
-          <div class="stat"><div class="label">سلوك إيجابي</div><div class="value" id="kpiPositive">18</div><div class="hint">حالات موثقة هذا الأسبوع</div></div>
-          <div class="stat"><div class="label">حالات تحتاج متابعة</div><div class="value" id="kpiOpen">4</div><div class="hint">غير مغلقة بعد</div></div>
-        </div>
-
-        <div class="grid2">
-          <div class="panel">
-            <div class="panel-head"><h3>مؤشرات الانضباط الأسبوعية</h3><span>عرض تجريبي</span></div>
-            <div class="bars">
-              <div class="bar-row"><span>الحضور</span><div class="track"><div class="fill" style="width:96%"></div></div><b>96%</b></div>
-              <div class="bar-row"><span>الالتزام بالطابور</span><div class="track"><div class="fill" style="width:91%"></div></div><b>91%</b></div>
-              <div class="bar-row"><span>الانضباط الصفي</span><div class="track"><div class="fill" style="width:94%"></div></div><b>94%</b></div>
-              <div class="bar-row"><span>إنجاز المعالجات</span><div class="track"><div class="fill" style="width:84%"></div></div><b>84%</b></div>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-head"><h3>آخر التحديثات</h3><span>هذا اليوم</span></div>
-            <div class="feed" id="feed">
-              <div class="feed-item"><span class="dot"></span><div><b>تحديث سجل الحضور</b><p>تم تحديث المؤشرات الصباحية بنجاح.</p></div></div>
-              <div class="feed-item"><span class="dot" style="background:#d7a84b"></span><div><b>إضافة سلوك إيجابي</b><p>تم توثيق حالة مشاركة متميزة.</p></div></div>
-              <div class="feed-item"><span class="dot" style="background:#b94c50"></span><div><b>حالة قيد المتابعة</b><p>تحتاج استكمال الإجراء التربوي.</p></div></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel" style="margin-top:16px">
-          <div class="panel-head"><h3>إجراءات سريعة</h3><span>اختصارات الاستخدام اليومي</span></div>
-          <div class="quick-grid">
-            <button class="quick" onclick="openModal('incidentModal')"><b>تسجيل مخالفة</b><span>إضافة واقعة سلوكية مع الإجراء المتخذ.</span></button>
-            <button class="quick" onclick="openModal('positiveModal')"><b>توثيق سلوك إيجابي</b><span>تسجيل مبادرة أو مشاركة أو التزام متميز.</span></button>
-            <button class="quick" onclick="goTo('reports')"><b>إصدار تقرير</b><span>عرض ملخص المؤشرات وطباعته.</span></button>
-          </div>
-        </div>
-      </section>
-
-      <section id="students" class="section">
-        <div class="panel">
-          <div class="panel-head"><h3>سجل الطالبات</h3><span>نموذج تجريبي</span></div>
-          <div class="toolbar">
-            <input id="studentSearch" class="field" placeholder="بحث بالرقم أو الصف..." oninput="renderStudents()">
-            <select id="classFilter" class="field" onchange="renderStudents()">
-              <option value="">كل الصفوف</option><option>الأول الثانوي</option><option>الثاني الثانوي</option><option>الثالث الثانوي</option>
-            </select>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>رقم الطالبة</th><th>الصف</th><th>الفصل</th><th>الحضور</th><th>الحالة</th></tr></thead>
-              <tbody id="studentsBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <section id="attendance" class="section">
-        <div class="panel">
-          <div class="panel-head"><h3>الحضور والتأخر</h3><span>المؤشرات اليومية</span></div>
-          <div class="cards" style="margin:0 0 16px">
-            <div class="stat"><div class="label">حاضرات</div><div class="value">405</div><div class="hint">من أصل 420</div></div>
-            <div class="stat"><div class="label">غياب</div><div class="value">15</div><div class="hint">يحتاج توثيق العذر</div></div>
-            <div class="stat"><div class="label">تأخر صباحي</div><div class="value">7</div><div class="hint">اليوم</div></div>
-            <div class="stat"><div class="label">التزام الطابور</div><div class="value">91%</div><div class="hint">الأسبوع الحالي</div></div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>الرقم</th><th>الصف</th><th>الحالة</th><th>الوقت</th><th>ملاحظة</th></tr></thead>
-              <tbody>
-                <tr><td>ST-014</td><td>الثاني الثانوي</td><td><span class="badge amber">تأخر</span></td><td>07:19</td><td>متابعة أولية</td></tr>
-                <tr><td>ST-031</td><td>الأول الثانوي</td><td><span class="badge red">غياب</span></td><td>—</td><td>بانتظار العذر</td></tr>
-                <tr><td>ST-008</td><td>الثالث الثانوي</td><td><span class="badge green">حضور</span></td><td>06:56</td><td>—</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <section id="incidents" class="section">
-        <div class="panel">
-          <div class="panel-head"><h3>المخالفات السلوكية</h3><button class="btn primary" onclick="openModal('incidentModal')">+ تسجيل مخالفة</button></div>
-          <div class="toolbar">
-            <input id="incidentSearch" class="field" placeholder="بحث..." oninput="renderIncidents()">
-            <select id="incidentStatus" class="field" onchange="renderIncidents()"><option value="">كل الحالات</option><option>قيد المتابعة</option><option>مغلقة</option></select>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>رقم الحالة</th><th>رقم الطالبة</th><th>التصنيف</th><th>الدرجة</th><th>الإجراء</th><th>الحالة</th></tr></thead>
-              <tbody id="incidentsBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <section id="positive" class="section">
-        <div class="panel">
-          <div class="panel-head"><h3>السلوك الإيجابي</h3><button class="btn primary" onclick="openModal('positiveModal')">+ إضافة توثيق</button></div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>رقم الطالبة</th><th>نوع السلوك</th><th>الوصف</th><th>التاريخ</th><th>نقاط تعزيز</th></tr></thead>
-              <tbody id="positiveBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <section id="reports" class="section">
-        <div class="hero">
-          <div>
-            <h2>ملخص التقرير التنفيذي</h2>
-            <p>ملخص سريع للقيادة المدرسية حول الانضباط، الحضور، الحالات المفتوحة، والسلوك الإيجابي.</p>
-          </div>
-          <button class="btn primary" onclick="window.print()">طباعة / حفظ PDF</button>
-        </div>
-        <div class="cards">
-          <div class="stat"><div class="label">نسبة الحضور</div><div class="value">96.4%</div><div class="hint">اليوم</div></div>
-          <div class="stat"><div class="label">المخالفات المسجلة</div><div class="value" id="reportIncidents">6</div><div class="hint">الفترة الحالية</div></div>
-          <div class="stat"><div class="label">المعالجة المنجزة</div><div class="value">84%</div><div class="hint">من الإجراءات المفتوحة</div></div>
-          <div class="stat"><div class="label">السلوك الإيجابي</div><div class="value" id="reportPositive">18</div><div class="hint">هذا الأسبوع</div></div>
-        </div>
-        <div class="panel" style="margin-top:16px">
-          <div class="panel-head"><h3>ملاحظات وتوصيات تشغيلية</h3><span>نموذج قابل للتخصيص</span></div>
-          <ul style="line-height:2;color:#445267;margin:0;padding-right:22px">
-            <li>متابعة حالات التأخر الصباحي المتكررة وفق الإجراء التربوي المعتمد.</li>
-            <li>تعزيز السلوك الإيجابي عبر التوثيق المنتظم والتحفيز داخل الصف.</li>
-            <li>مراجعة الحالات المفتوحة أسبوعيًا وإغلاق ما تم استكمال إجراءاته.</li>
-            <li>إصدار تقرير دوري مختصر للإدارة المدرسية عن الاتجاهات والاحتياج.</li>
-          </ul>
-        </div>
-      </section>
-    </main>
-  </div>
-</div>
-
-<!-- Incident modal -->
-<div class="modal" id="incidentModal">
-  <div class="modal-card">
-    <h3>تسجيل مخالفة سلوكية</h3>
-    <div class="form-grid">
-      <div class="form-group"><label>رقم الطالبة</label><input id="iStudent" class="field" placeholder="مثال ST-021"></div>
-      <div class="form-group"><label>التصنيف</label><select id="iType" class="field"><option>تأخر صباحي</option><option>عدم التزام بالتعليمات</option><option>سلوك صفي</option><option>أخرى</option></select></div>
-      <div class="form-group"><label>درجة المخالفة</label><select id="iLevel" class="field"><option>الأولى</option><option>الثانية</option><option>الثالثة</option></select></div>
-      <div class="form-group"><label>الحالة</label><select id="iStatus" class="field"><option>قيد المتابعة</option><option>مغلقة</option></select></div>
-      <div class="form-group full"><label>الإجراء التربوي</label><textarea id="iAction" class="field" placeholder="اكتب الإجراء المتخذ..."></textarea></div>
+    <div class="hero-card">
+      <div class="hero-badge">بوابة مدرسية رقمية</div>
+      <div class="hero-visual"><div class="orb one"></div><div class="orb two"></div><div class="school-icon">🏫</div></div>
+      <div class="hero-note">تعليم • تواصل • تطوير • متابعة</div>
     </div>
-    <div class="modal-actions"><button class="btn secondary" onclick="closeModal('incidentModal')">إلغاء</button><button class="btn primary" onclick="addIncident()">حفظ الحالة</button></div>
   </div>
-</div>
+</section>
 
-<!-- Positive modal -->
-<div class="modal" id="positiveModal">
-  <div class="modal-card">
-    <h3>توثيق سلوك إيجابي</h3>
-    <div class="form-grid">
-      <div class="form-group"><label>رقم الطالبة</label><input id="pStudent" class="field" placeholder="مثال ST-011"></div>
-      <div class="form-group"><label>نوع السلوك</label><select id="pType" class="field"><option>انضباط متميز</option><option>مبادرة</option><option>تعاون</option><option>مشاركة مدرسية</option><option>أخرى</option></select></div>
-      <div class="form-group full"><label>الوصف</label><textarea id="pDesc" class="field" placeholder="وصف مختصر للسلوك..."></textarea></div>
-      <div class="form-group"><label>نقاط التعزيز</label><input id="pPoints" class="field" type="number" min="1" max="20" value="5"></div>
+<section class="section" id="services">
+  <div class="container">
+    <div class="section-head"><span>الخدمات الرئيسية</span><h3>كل ما تحتاجينه في مكان واحد</h3><p>بطاقات وصول سريعة لأهم أقسام البوابة المدرسية.</p></div>
+    <div class="service-grid">
+      <a class="service-card" href="#news"><div class="icon">📰</div><h4>الأخبار والفعاليات</h4><p>آخر الأخبار، المبادرات، والأنشطة المدرسية.</p></a>
+      <a class="service-card" href="#students"><div class="icon">🎓</div><h4>الطالبات والتعلم</h4><p>مصادر تعليمية، إرشادات، وروابط تعلم مهمة.</p></a>
+      <a class="service-card" href="#parents"><div class="icon">👨‍👩‍👧</div><h4>ولي الأمر</h4><p>التواصل، التنبيهات، والنماذج المخصصة للأسرة.</p></a>
+      <a class="service-card" href="#resources"><div class="icon">📚</div><h4>الموارد والتطوير</h4><p>أدلة ونماذج ومواد تطويرية للهيئة التعليمية.</p></a>
+      <a class="service-card" href="#guidance"><div class="icon">🤝</div><h4>الشؤون الطلابية</h4><p>التوجيه الطلابي، السلوك، والانضباط والدعم.</p></a>
+      <a class="service-card" href="#contact"><div class="icon">✉️</div><h4>تواصل معنا</h4><p>قنوات تواصل مباشرة واستقبال الاستفسارات.</p></a>
     </div>
-    <div class="modal-actions"><button class="btn secondary" onclick="closeModal('positiveModal')">إلغاء</button><button class="btn primary" onclick="addPositive()">حفظ التوثيق</button></div>
   </div>
-</div>
+</section>
 
-<script>
-const baseStudents = [
-  {id:'ST-001',grade:'الأول الثانوي',cls:'1/1',attendance:'98%',status:'منتظمة'},
-  {id:'ST-008',grade:'الثالث الثانوي',cls:'3/2',attendance:'97%',status:'منتظمة'},
-  {id:'ST-014',grade:'الثاني الثانوي',cls:'2/1',attendance:'93%',status:'متابعة'},
-  {id:'ST-021',grade:'الأول الثانوي',cls:'1/3',attendance:'96%',status:'منتظمة'},
-  {id:'ST-031',grade:'الأول الثانوي',cls:'1/2',attendance:'91%',status:'متابعة'}
-];
+<section class="section alt" id="news">
+  <div class="container">
+    <div class="section-head inline"><div><span>مستجدات المدرسة</span><h3>الأخبار والفعاليات</h3></div><a class="text-link" href="#contact">إرسال خبر أو إعلان ←</a></div>
+    <div class="news-grid">
+      <article class="news-card featured"><div class="tag">إعلان</div><h4>مرحبًا بكم في بوابة الثانوية السابعة والستون</h4><p>يمكن تعديل هذا النص واستبداله بالإعلانات والأخبار الفعلية للمدرسة.</p><time>01 أكتوبر 2026</time></article>
+      <article class="news-card"><div class="tag muted">فعالية</div><h4>برنامج تطوير المهارات الدراسية</h4><p>نموذج لخبر مدرسي قابل للتعديل لاحقًا.</p><time>هذا الأسبوع</time></article>
+      <article class="news-card"><div class="tag muted">تنبيه</div><h4>متابعة الانضباط والحضور</h4><p>رسالة تجريبية لتوضيح شكل التنبيهات المدرسية.</p><time>اليوم</time></article>
+    </div>
+  </div>
+</section>
 
-let incidents = JSON.parse(localStorage.getItem('s67_incidents') || 'null') || [
-  {id:'INC-001',student:'ST-014',type:'تأخر صباحي',level:'الأولى',action:'تنبيه تربوي ومتابعة',status:'قيد المتابعة'},
-  {id:'INC-002',student:'ST-031',type:'عدم التزام بالتعليمات',level:'الأولى',action:'جلسة توجيه فردية',status:'مغلقة'},
-  {id:'INC-003',student:'ST-021',type:'سلوك صفي',level:'الأولى',action:'تعهد سلوكي ومتابعة',status:'قيد المتابعة'}
-];
+<section class="section" id="students">
+  <div class="container split">
+    <div>
+      <div class="section-head compact"><span>الطالبات والتعلم</span><h3>مساحة داعمة للتعلم والتميز</h3><p>روابط وخدمات تعليمية مختصرة يمكن ربطها بمنصة مدرستي أو النماذج أو المصادر الداخلية.</p></div>
+      <div class="link-list">
+        <a href="#">الدروس والواجبات <b>←</b></a>
+        <a href="#">الاختبارات والنماذج <b>←</b></a>
+        <a href="#">المصادر الرقمية <b>←</b></a>
+        <a href="#">الدعم والإرشاد الأكاديمي <b>←</b></a>
+      </div>
+    </div>
+    <div class="info-card"><span class="mini">روابط سريعة</span><h4>الخدمات الأكثر استخدامًا</h4><div class="quick-grid"><a href="#">منصة مدرستي</a><a href="#">نظام نور</a><a href="#">الاختبارات</a><a href="#">النماذج</a></div></div>
+  </div>
+</section>
 
-let positives = JSON.parse(localStorage.getItem('s67_positive') || 'null') || [
-  {student:'ST-001',type:'انضباط متميز',desc:'التزام كامل بالحضور والطابور',date:new Date().toLocaleDateString('ar-SA'),points:5},
-  {student:'ST-008',type:'مبادرة',desc:'المشاركة في تنظيم نشاط مدرسي',date:new Date().toLocaleDateString('ar-SA'),points:8}
-];
+<section class="section dark" id="parents">
+  <div class="container split">
+    <div>
+      <div class="section-head compact light"><span>ولي الأمر</span><h3>تواصل أسهل، متابعة أوضح</h3><p>قسم مخصص لإعلانات أولياء الأمور، النماذج، اللقاءات، والتواصل مع المدرسة.</p></div>
+      <div class="parent-actions"><a class="btn lightbtn" href="#">نماذج أولياء الأمور</a><a class="btn ghost" href="#contact">تواصل مع المدرسة</a></div>
+    </div>
+    <div class="notice-box"><b>تنبيه مهم</b><p>هذه النسخة تحتوي بيانات ونصوصًا تجريبية فقط. أضف الروابط الرسمية للمدرسة قبل النشر العام.</p></div>
+  </div>
+</section>
 
-function setDate(){
-  const d=new Date();
-  document.getElementById('todayDate').innerText=d.toLocaleDateString('ar-SA',{weekday:'long',day:'numeric',month:'long'});
-}
-function goTo(id){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.section===id));
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>goTo(b.dataset.section)));
+<section class="section" id="resources">
+  <div class="container">
+    <div class="section-head"><span>الموارد والتطوير</span><h3>ملفات ونماذج وأدلة جاهزة للوصول</h3></div>
+    <div class="resource-grid">
+      <div class="resource-card"><b>📄</b><h4>النماذج المدرسية</h4><p>نماذج إلكترونية أو ملفات PDF.</p><a href="#">فتح القسم</a></div>
+      <div class="resource-card"><b>🧭</b><h4>الأدلة الإجرائية</h4><p>سياسات وأدلة ونشرات مختصرة.</p><a href="#">فتح القسم</a></div>
+      <div class="resource-card"><b>💡</b><h4>التطوير المهني</h4><p>ورش ومصادر وأدوات داعمة.</p><a href="#">فتح القسم</a></div>
+    </div>
+  </div>
+</section>
 
-function renderStudents(){
-  const q=(document.getElementById('studentSearch')?.value||'').trim();
-  const f=document.getElementById('classFilter')?.value||'';
-  const rows=baseStudents.filter(x=>(!q || [x.id,x.grade,x.cls].join(' ').includes(q)) && (!f||x.grade===f));
-  document.getElementById('studentsBody').innerHTML=rows.map(x=>`
-    <tr><td>${x.id}</td><td>${x.grade}</td><td>${x.cls}</td><td>${x.attendance}</td>
-    <td><span class="badge ${x.status==='منتظمة'?'green':'amber'}">${x.status}</span></td></tr>`).join('') || '<tr><td colspan="5" class="empty">لا توجد نتائج</td></tr>';
-}
-function renderIncidents(){
-  const q=(document.getElementById('incidentSearch')?.value||'').trim();
-  const st=document.getElementById('incidentStatus')?.value||'';
-  const rows=incidents.filter(x=>(!q || Object.values(x).join(' ').includes(q)) && (!st||x.status===st));
-  document.getElementById('incidentsBody').innerHTML=rows.map(x=>`
-    <tr><td>${x.id}</td><td>${x.student}</td><td>${x.type}</td><td>${x.level}</td><td>${x.action}</td>
-    <td><span class="badge ${x.status==='مغلقة'?'green':'amber'}">${x.status}</span></td></tr>`).join('') || '<tr><td colspan="6" class="empty">لا توجد حالات</td></tr>';
-  document.getElementById('reportIncidents').innerText=incidents.length;
-  document.getElementById('kpiOpen').innerText=incidents.filter(x=>x.status==='قيد المتابعة').length;
-}
-function renderPositive(){
-  document.getElementById('positiveBody').innerHTML=positives.map(x=>`
-    <tr><td>${x.student}</td><td>${x.type}</td><td>${x.desc}</td><td>${x.date}</td><td><span class="badge blue">${x.points}</span></td></tr>`).join('') || '<tr><td colspan="5" class="empty">لا توجد سجلات</td></tr>';
-  document.getElementById('reportPositive').innerText=positives.length;
-  document.getElementById('kpiPositive').innerText=positives.length;
-}
-function openModal(id){document.getElementById(id).classList.add('show')}
-function closeModal(id){document.getElementById(id).classList.remove('show')}
-function addIncident(){
-  const student=document.getElementById('iStudent').value.trim()||'غير محدد';
-  const type=document.getElementById('iType').value;
-  const level=document.getElementById('iLevel').value;
-  const status=document.getElementById('iStatus').value;
-  const action=document.getElementById('iAction').value.trim()||'قيد الاستكمال';
-  incidents.unshift({id:'INC-'+String(incidents.length+1).padStart(3,'0'),student,type,level,action,status});
-  localStorage.setItem('s67_incidents',JSON.stringify(incidents));
-  renderIncidents(); closeModal('incidentModal'); goTo('incidents');
-}
-function addPositive(){
-  const student=document.getElementById('pStudent').value.trim()||'غير محدد';
-  const type=document.getElementById('pType').value;
-  const desc=document.getElementById('pDesc').value.trim()||'توثيق سلوك إيجابي';
-  const points=document.getElementById('pPoints').value||5;
-  positives.unshift({student,type,desc,date:new Date().toLocaleDateString('ar-SA'),points});
-  localStorage.setItem('s67_positive',JSON.stringify(positives));
-  renderPositive(); closeModal('positiveModal'); goTo('positive');
-}
-window.addEventListener('click',e=>{ if(e.target.classList.contains('modal')) e.target.classList.remove('show'); });
-setDate(); renderStudents(); renderIncidents(); renderPositive();
-</script>
+<section class="section alt" id="guidance">
+  <div class="container split">
+    <div class="info-card flat"><span class="mini">الشؤون الطلابية</span><h4>التوجيه والسلوك والانضباط</h4><p>يمكن ربط هذا القسم بمنظومة الانضباط المدرسي أو نماذج الجلسات الإرشادية وبرامج التحفيز.</p><a class="btn primary" href="#">فتح خدمات الشؤون الطلابية</a></div>
+    <div class="timeline">
+      <div><span>01</span><p><b>التوجيه الطلابي</b><br>جلسات ودعم وبرامج إرشادية.</p></div>
+      <div><span>02</span><p><b>السلوك الإيجابي</b><br>توثيق وتعزيز المبادرات والسلوك المتميز.</p></div>
+      <div><span>03</span><p><b>الانضباط والحضور</b><br>متابعة وتنبيهات وتقارير دورية.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="calendar">
+  <div class="container">
+    <div class="section-head"><span>المواعيد المهمة</span><h3>التقويم المدرسي المختصر</h3></div>
+    <div class="calendar-grid">
+      <div class="date-card"><strong>05</strong><span>أكتوبر</span><p>لقاء تعريفي / فعالية مدرسية</p></div>
+      <div class="date-card"><strong>12</strong><span>أكتوبر</span><p>موعد تجريبي قابل للتعديل</p></div>
+      <div class="date-card"><strong>20</strong><span>أكتوبر</span><p>تقرير أو اجتماع متابعة</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section contact" id="contact">
+  <div class="container contact-box">
+    <div><span>تواصل معنا</span><h3>الثانوية السابعة والستون</h3><p>يمكنك هنا إضافة البريد الرسمي، رقم الهاتف، موقع المدرسة، أو رابط نموذج التواصل.</p></div>
+    <div class="contact-actions"><a class="btn primary" href="mailto:school@example.com">البريد الإلكتروني</a><a class="btn secondary" href="#">نموذج التواصل</a></div>
+  </div>
+</section>
+</main>
+
+<footer><div class="container footer-inner"><div><b>الثانوية السابعة والستون</b><span>بوابة التواصل المدرسي</span></div><p>© 2026 — نسخة تجريبية قابلة للتخصيص</p></div></footer>
+<script src="script.js"></script>
 </body>
 </html>
