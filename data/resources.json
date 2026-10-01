@@ -1,0 +1,26 @@
+[
+  {
+    "title": "النماذج المدرسية",
+    "description": "نماذج إلكترونية أو ملفات PDF.",
+    "icon": "📄",
+    "file": "",
+    "url": "",
+    "published": true
+  },
+  {
+    "title": "الأدلة الإجرائية",
+    "description": "سياسات وأدلة ونشرات مختصرة.",
+    "icon": "🧭",
+    "file": "",
+    "url": "",
+    "published": true
+  },
+  {
+    "title": "التطوير المهني",
+    "description": "ورش ومصادر وأدوات داعمة.",
+    "icon": "💡",
+    "file": "",
+    "url": "",
+    "published": true
+  }
+]
