@@ -1,0 +1,179 @@
+media:
+  - name: images
+    label: الصور
+    input: media/images
+    output: /76/media/images
+    categories: [image]
+    rename: safe
+  - name: documents
+    label: الملفات والمستندات
+    input: media/documents
+    output: /76/media/documents
+    categories: [document]
+    rename: safe
+
+content:
+  - name: site
+    label: إعدادات الموقع
+    type: file
+    path: data/site.json
+    format: json
+    operations:
+      delete: false
+    fields:
+      - name: schoolName
+        label: اسم المدرسة
+        type: string
+        required: true
+      - name: portalTitle
+        label: اسم البوابة
+        type: string
+        required: true
+      - name: heroTitle
+        label: عنوان الواجهة
+        type: string
+      - name: heroSubtitle
+        label: العنوان الفرعي
+        type: string
+      - name: heroText
+        label: النص الترحيبي
+        type: text
+      - name: contactEmail
+        label: البريد الإلكتروني
+        type: string
+      - name: phone
+        label: رقم الهاتف
+        type: string
+      - name: address
+        label: العنوان
+        type: text
+      - name: footerText
+        label: نص التذييل
+        type: string
+
+  - name: news
+    label: الأخبار والإعلانات
+    type: file
+    path: data/news.json
+    format: json
+    list: true
+    operations:
+      delete: false
+    fields:
+      - name: type
+        label: النوع
+        type: select
+        required: true
+        options:
+          values: [إعلان, خبر, فعالية, تنبيه]
+      - name: title
+        label: العنوان
+        type: string
+        required: true
+      - name: description
+        label: التفاصيل
+        type: text
+        required: true
+      - name: date
+        label: التاريخ
+        type: date
+        required: true
+      - name: image
+        label: الصورة
+        type: image
+        options:
+          media: images
+      - name: url
+        label: رابط إضافي
+        type: string
+      - name: published
+        label: منشور
+        type: boolean
+        default: true
+
+  - name: events
+    label: المواعيد المهمة
+    type: file
+    path: data/events.json
+    format: json
+    list: true
+    operations:
+      delete: false
+    fields:
+      - name: title
+        label: اسم الموعد
+        type: string
+        required: true
+      - name: date
+        label: التاريخ
+        type: date
+        required: true
+      - name: published
+        label: منشور
+        type: boolean
+        default: true
+
+  - name: links
+    label: الروابط السريعة
+    type: file
+    path: data/links.json
+    format: json
+    list: true
+    operations:
+      delete: false
+    fields:
+      - name: title
+        label: اسم الرابط
+        type: string
+        required: true
+      - name: url
+        label: الرابط
+        type: string
+        required: true
+      - name: icon
+        label: الأيقونة
+        type: string
+      - name: published
+        label: منشور
+        type: boolean
+        default: true
+
+  - name: resources
+    label: الملفات والنماذج
+    type: file
+    path: data/resources.json
+    format: json
+    list: true
+    operations:
+      delete: false
+    fields:
+      - name: title
+        label: العنوان
+        type: string
+        required: true
+      - name: description
+        label: الوصف
+        type: text
+      - name: icon
+        label: الأيقونة
+        type: string
+      - name: file
+        label: رفع ملف
+        type: file
+        options:
+          media: documents
+      - name: url
+        label: رابط خارجي
+        type: string
+      - name: published
+        label: منشور
+        type: boolean
+        default: true
+
+settings:
+  commit:
+    identity: user
+    templates:
+      create: "content: إضافة {filename}"
+      update: "content: تحديث {filename}"
+      delete: "content: حذف {filename}"
