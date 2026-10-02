@@ -4,6 +4,7 @@ menuBtn?.addEventListener('click',()=>mainNav.classList.toggle('open'));
 mainNav?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mainNav.classList.remove('open')));
 
 let SCHOOL_EMAIL='school@example.com';
+let CONTACT_ENDPOINT='';
 
 const contactForm=document.getElementById('contactForm');
 const contactStatus=document.getElementById('contactStatus');
@@ -54,6 +55,7 @@ async function loadSiteSettings(){
     document.title=data.schoolName+' | '+data.portalTitle;
   }
   if(data.contactEmail)SCHOOL_EMAIL=data.contactEmail;
+  if(data.contactEndpoint)CONTACT_ENDPOINT=data.contactEndpoint;
 }
 
 async function renderNews(){
@@ -187,18 +189,60 @@ contactForm?.addEventListener('reset',()=>setTimeout(()=>{
   if(contactStatus)contactStatus.className='form-status';
 },0));
 
-contactForm?.addEventListener('submit',e=>{
+contactForm?.addEventListener('submit',async e=>{
   e.preventDefault();
   if(!contactForm.checkValidity()){
     contactForm.reportValidity();
     setStatus('يرجى إكمال الحقول المطلوبة قبل الإرسال.','error');
     return;
   }
+
   const data=getContactPayload();
-  const subject='بوابة المدرسة - '+data.subject+' - '+data.name;
-  const body=buildMessage(data);
+  const now=new Date();
+  const pad=n=>String(n).padStart(2,'0');
+  const trackingId='INQ-'+now.getFullYear()+pad(now.getMonth()+1)+pad(now.getDate())+'-'+pad(now.getHours())+pad(now.getMinutes())+pad(now.getSeconds())+'-'+Math.floor(100+Math.random()*900);
+
+  if(CONTACT_ENDPOINT && CONTACT_ENDPOINT.startsWith('https://script.google.com/macros/s/')){
+    const submitBtn=contactForm.querySelector('button[type="submit"]');
+    const oldText=submitBtn?.textContent;
+    if(submitBtn){submitBtn.disabled=true;submitBtn.textContent='جارٍ الإرسال...';}
+
+    try{
+      const body=new URLSearchParams({
+        type:'inquiry',
+        trackingId,
+        submittedAt:now.toISOString(),
+        name:data.name,
+        role:data.role,
+        phone:data.phone,
+        email:data.email,
+        subject:data.subject,
+        message:data.message,
+        pageUrl:location.href
+      });
+
+      await fetch(CONTACT_ENDPOINT,{
+        method:'POST',
+        mode:'no-cors',
+        headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
+        body:body.toString()
+      });
+
+      setStatus('تم إرسال استفسارك بنجاح. رقم المتابعة: '+trackingId,'success');
+      contactForm.reset();
+    }catch(err){
+      console.error(err);
+      setStatus('تعذر الإرسال المباشر. يمكنك استخدام زر «نسخ الرسالة» أو المحاولة لاحقًا.','error');
+    }finally{
+      if(submitBtn){submitBtn.disabled=false;submitBtn.textContent=oldText||'إرسال';}
+    }
+    return;
+  }
+
+  const subject='بوابة المدرسة - '+data.subject+' - '+data.name+' - '+trackingId;
+  const body=buildMessage(data)+'\n\nرقم المتابعة: '+trackingId;
   const mailto='mailto:'+SCHOOL_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
-  setStatus('سيتم فتح تطبيق البريد لإرسال الرسالة. إذا لم يفتح، استخدم زر «نسخ الرسالة».','success');
+  setStatus('لم يتم تفعيل الإرسال المباشر بعد؛ سيتم فتح البريد الآن. رقم المتابعة: '+trackingId,'info');
   window.location.href=mailto;
 });
 
