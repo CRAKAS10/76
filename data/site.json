@@ -10,5 +10,7 @@
   "footerText": "بوابة التواصل المدرسي",
   "adminEmail": "jaf.sco67@gmail.com",
   "inquiriesSheetUrl": "https://docs.google.com/spreadsheets/d/1v1yJOCyq-6PDja2QHM24lXuGb-KzAKtbtS1CuoLdPVo/edit",
-  "adminFolderUrl": "https://drive.google.com/drive/folders/1Jov4uzxpaOJHHDoFJOmutAykYnbLmCWW"
+  "adminFolderUrl": "https://drive.google.com/drive/folders/1Jov4uzxpaOJHHDoFJOmutAykYnbLmCWW",
+  "contactEndpoint": "",
+  "inquiriesSheetId": "1v1yJOCyq-6PDja2QHM24lXuGb-KzAKtbtS1CuoLdPVo"
 }
