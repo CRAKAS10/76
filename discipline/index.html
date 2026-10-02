@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#12324a">
+<title>الثانوية السابعة والستون | منظومة الانضباط والسلوك</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="side-brand">
+      <div class="school-mark">67</div>
+      <div><b>الثانوية السابعة والستون</b><span>الانضباط والسلوك</span></div>
+    </div>
+
+    <nav class="side-nav">
+      <button class="nav-item active" data-view="dashboard"><span>▦</span>لوحة المؤشرات</button>
+      <button class="nav-item" data-view="students"><span>👥</span>الطالبات</button>
+      <button class="nav-item" data-view="attendance"><span>✓</span>الحضور والمواظبة</button>
+      <button class="nav-item" data-view="incidents"><span>⚠</span>المخالفات السلوكية</button>
+      <button class="nav-item" data-view="positive"><span>★</span>السلوك الإيجابي</button>
+      <button class="nav-item" data-view="reports"><span>▤</span>التقارير</button>
+      <button class="nav-item" data-view="settings"><span>⚙</span>الإعدادات</button>
+    </nav>
+
+    <div class="side-note">
+      <b>نسخة تشغيلية أولية</b>
+      <span>البيانات تحفظ على هذا الجهاز فقط إلى أن يتم ربط قاعدة البيانات.</span>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-right">
+        <button id="menuBtn" class="icon-btn mobile-only">☰</button>
+        <div>
+          <h1 id="viewTitle">لوحة المؤشرات</h1>
+          <p>منظومة الانضباط والسلوك المدرسي</p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <span class="status-pill">● النظام يعمل</span>
+        <a class="icon-btn" href="../" title="العودة للموقع">⌂</a>
+      </div>
+    </header>
+
+    <section class="view active" id="dashboard">
+      <div class="welcome-card">
+        <div>
+          <span class="eyebrow">مرحبًا بكم</span>
+          <h2>متابعة الانضباط والسلوك من شاشة واحدة</h2>
+          <p>رصد الحضور والمخالفات والسلوك الإيجابي وإصدار التقارير للثانوية السابعة والستون.</p>
+          <div class="welcome-actions">
+            <button class="btn primary" data-open="studentModal">+ إضافة طالبة</button>
+            <button class="btn light" data-open="incidentModal">+ تسجيل مخالفة</button>
+          </div>
+        </div>
+        <div class="score-ring">
+          <div><strong id="disciplineScore">100</strong><span>مؤشر الانضباط</span></div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card"><span class="stat-icon blue">👥</span><div><small>إجمالي الطالبات</small><strong id="studentsCount">0</strong><em>المسجلات بالنظام</em></div></article>
+        <article class="stat-card"><span class="stat-icon green">✓</span><div><small>الحضور اليوم</small><strong id="presentCount">0</strong><em>طالبة حاضرة</em></div></article>
+        <article class="stat-card"><span class="stat-icon red">⚠</span><div><small>المخالفات</small><strong id="incidentsCount">0</strong><em>إجمالي المسجل</em></div></article>
+        <article class="stat-card"><span class="stat-icon gold">★</span><div><small>السلوك الإيجابي</small><strong id="positiveCount">0</strong><em>حالات تعزيز</em></div></article>
+      </div>
+
+      <div class="dashboard-grid">
+        <section class="panel">
+          <div class="panel-head"><div><span>المتابعة اليومية</span><h3>آخر الإجراءات</h3></div><button class="text-btn" data-view-target="reports">عرض التقارير</button></div>
+          <div id="activityList" class="activity-list"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head"><div><span>نظرة سريعة</span><h3>توزيع الحالات</h3></div></div>
+          <div class="mini-bars">
+            <div><label>الحضور</label><span><i id="attendanceBar"></i></span><b id="attendancePct">0%</b></div>
+            <div><label>السلوك الإيجابي</label><span><i id="positiveBar"></i></span><b id="positivePct">0%</b></div>
+            <div><label>المخالفات</label><span><i id="incidentBar"></i></span><b id="incidentPct">0%</b></div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="view" id="students">
+      <div class="section-tools">
+        <div class="search-box">⌕ <input id="studentSearch" placeholder="بحث بالاسم أو الصف أو الرقم..."></div>
+        <button class="btn primary" data-open="studentModal">+ إضافة طالبة</button>
+      </div>
+      <section class="panel">
+        <div class="panel-head"><div><span>السجل</span><h3>قائمة الطالبات</h3></div><b id="studentsBadge" class="count-badge">0</b></div>
+        <div class="table-wrap">
+          <table><thead><tr><th>الرقم</th><th>الاسم</th><th>الصف</th><th>الفصل</th><th>ولي الأمر</th><th>الجوال</th><th>الحالة</th><th></th></tr></thead><tbody id="studentsTable"></tbody></table>
+        </div>
+      </section>
+    </section>
+
+    <section class="view" id="attendance">
+      <div class="section-tools">
+        <div><h2 class="section-title">الحضور والمواظبة</h2><p class="muted">تسجيل الحالة اليومية للطالبات.</p></div>
+        <input class="date-input" id="attendanceDate" type="date">
+      </div>
+      <section class="panel">
+        <div class="table-wrap">
+          <table><thead><tr><th>الطالبة</th><th>الصف</th><th>الحالة</th><th>ملاحظة</th></tr></thead><tbody id="attendanceTable"></tbody></table>
+        </div>
+      </section>
+    </section>
+
+    <section class="view" id="incidents">
+      <div class="section-tools">
+        <div><h2 class="section-title">المخالفات السلوكية</h2><p class="muted">توثيق الحالة والإجراء المتخذ.</p></div>
+        <button class="btn danger" data-open="incidentModal">+ تسجيل مخالفة</button>
+      </div>
+      <section class="panel">
+        <div class="table-wrap">
+          <table><thead><tr><th>التاريخ</th><th>الطالبة</th><th>المخالفة</th><th>الدرجة</th><th>الإجراء</th><th>الحالة</th></tr></thead><tbody id="incidentsTable"></tbody></table>
+        </div>
+      </section>
+    </section>
+
+    <section class="view" id="positive">
+      <div class="section-tools">
+        <div><h2 class="section-title">السلوك الإيجابي</h2><p class="muted">تعزيز السلوك والتميز والمبادرات الإيجابية.</p></div>
+        <button class="btn success" data-open="positiveModal">+ إضافة تعزيز</button>
+      </div>
+      <section class="panel">
+        <div class="table-wrap">
+          <table><thead><tr><th>التاريخ</th><th>الطالبة</th><th>نوع السلوك</th><th>النقاط</th><th>الملاحظة</th></tr></thead><tbody id="positiveTable"></tbody></table>
+        </div>
+      </section>
+    </section>
+
+    <section class="view" id="reports">
+      <div class="section-tools">
+        <div><h2 class="section-title">التقارير</h2><p class="muted">ملخصات جاهزة للطباعة والمتابعة.</p></div>
+        <button class="btn primary" id="printBtn">طباعة التقرير</button>
+      </div>
+      <div class="report-grid">
+        <article class="report-card"><span>01</span><h3>تقرير الحضور</h3><p>ملخص حضور وغياب الطالبات حسب اليوم.</p><button data-report="attendance">عرض</button></article>
+        <article class="report-card"><span>02</span><h3>تقرير المخالفات</h3><p>سجل المخالفات والإجراءات المتخذة.</p><button data-report="incidents">عرض</button></article>
+        <article class="report-card"><span>03</span><h3>تقرير السلوك الإيجابي</h3><p>حالات التعزيز ونقاط التميز.</p><button data-report="positive">عرض</button></article>
+        <article class="report-card"><span>04</span><h3>التقرير الشامل</h3><p>مؤشرات النظام في صفحة واحدة.</p><button data-report="summary">عرض</button></article>
+      </div>
+      <section class="panel report-preview" id="reportPreview">
+        <div class="panel-head"><div><span>المعاينة</span><h3>التقرير الشامل</h3></div></div>
+        <div id="reportContent"></div>
+      </section>
+    </section>
+
+    <section class="view" id="settings">
+      <div class="settings-grid">
+        <section class="panel">
+          <div class="panel-head"><div><span>بيانات المدرسة</span><h3>الإعدادات العامة</h3></div></div>
+          <div class="setting-row"><label>اسم المدرسة</label><input value="الثانوية السابعة والستون" disabled></div>
+          <div class="setting-row"><label>البريد الرسمي</label><input value="jaf.sco67@gmail.com" disabled></div>
+          <div class="setting-row"><label>نوع المدرسة</label><input value="ثانوي - بنات" disabled></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><div><span>البيانات</span><h3>النسخ والتصدير</h3></div></div>
+          <button class="btn primary full" id="exportBtn">تصدير نسخة JSON</button>
+          <button class="btn light full" id="resetBtn">مسح البيانات التجريبية</button>
+          <p class="privacy-note">لا تُدخل بيانات طالبات حقيقية وحساسة قبل ربط النظام بقاعدة بيانات آمنة وصلاحيات دخول.</p>
+        </section>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modal" id="studentModal"><div class="modal-card"><button class="close-btn" data-close>×</button><h3>إضافة طالبة</h3><form id="studentForm" class="form-grid">
+<label>رقم الطالبة<input name="id" required></label>
+<label>اسم الطالبة<input name="name" required></label>
+<label>الصف<select name="grade" required><option value="">اختر</option><option>الأول الثانوي</option><option>الثاني الثانوي</option><option>الثالث الثانوي</option></select></label>
+<label>الفصل<input name="classroom" placeholder="مثال: 1"></label>
+<label>اسم ولي الأمر<input name="parent"></label>
+<label>رقم الجوال<input name="phone" inputmode="tel"></label>
+<button class="btn primary full" type="submit">حفظ الطالبة</button></form></div></div>
+
+<div class="modal" id="incidentModal"><div class="modal-card"><button class="close-btn" data-close>×</button><h3>تسجيل مخالفة</h3><form id="incidentForm" class="form-grid">
+<label class="full">الطالبة<select name="studentId" id="incidentStudent" required></select></label>
+<label>نوع المخالفة<input name="type" required placeholder="مثال: تأخر صباحي"></label>
+<label>درجة المخالفة<select name="level" required><option>الأولى</option><option>الثانية</option><option>الثالثة</option><option>الرابعة</option><option>الخامسة</option></select></label>
+<label class="full">الإجراء المتخذ<textarea name="action" rows="3" placeholder="الإجراء التربوي أو الإداري"></textarea></label>
+<button class="btn danger full" type="submit">حفظ المخالفة</button></form></div></div>
+
+<div class="modal" id="positiveModal"><div class="modal-card"><button class="close-btn" data-close>×</button><h3>إضافة سلوك إيجابي</h3><form id="positiveForm" class="form-grid">
+<label class="full">الطالبة<select name="studentId" id="positiveStudent" required></select></label>
+<label>نوع السلوك<input name="type" required placeholder="مثال: مبادرة تطوعية"></label>
+<label>النقاط<input name="points" type="number" min="1" max="100" value="5"></label>
+<label class="full">ملاحظة<textarea name="note" rows="3"></textarea></label>
+<button class="btn success full" type="submit">حفظ التعزيز</button></form></div></div>
+
+<div class="toast" id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
